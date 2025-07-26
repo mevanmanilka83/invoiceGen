@@ -53,4 +53,5 @@ export interface Invoice {
   };
   thankYouMessage?: string;
   termsConditions?: string;
+  legalCompliance?: string;
 }
