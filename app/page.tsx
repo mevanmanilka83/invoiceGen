@@ -10,11 +10,7 @@ export default function Home() {
   const [showPreview, setShowPreview] = useState(false)
 
   if (showPreview) {
-    return (
-      <div className="min-h-screen bg-gray-50 p-4 flex items-center justify-center w-full   ">
-        <InvoicePreview />
-      </div>
-    )
+    return <InvoicePreview />
   }
 
   return (

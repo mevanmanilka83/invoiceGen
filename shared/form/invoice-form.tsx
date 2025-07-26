@@ -13,19 +13,19 @@ const InvoiceForm = () => {
       <div className="w-full max-w-4xl mx-auto">
         <CompanyDetails />
         <div className="h-4"></div>
-        <PaymentDetails />
+        <ContactDetails />
         <div className="h-4"></div>
         <BasicDetails />
         <div className="h-4"></div>
         <InvoiceDetails />
         <div className="h-4"></div>
-        <ContactDetails />
-        <div className="h-4"></div>
         <ItemList />
-          <div className="h-4"></div>
+        <div className="h-4"></div>
         <TaxAndTotals />
-          </div>
-        </div>
+        <div className="h-4"></div>
+        <PaymentDetails />
+      </div>
+    </div>
   )
 }
 
