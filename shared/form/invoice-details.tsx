@@ -8,8 +8,7 @@ import { useInvoice } from '@/context/invoice-context'
 const InvoiceDetails = () => {
   const poNumberId = useId()
   const projectNameId = useId()
-  const thankYouMessageId = useId()
-  const termsConditionsId = useId()
+  const customerIdId = useId()
 
   const { invoice, updateInvoice } = useInvoice()
 
@@ -26,7 +25,7 @@ const InvoiceDetails = () => {
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {/* Purchase Order Number */}
           <div className="group relative">
             <label
@@ -50,40 +49,33 @@ const InvoiceDetails = () => {
               htmlFor={projectNameId}
               className="bg-background text-foreground absolute start-1 top-0 z-10 block -translate-y-1/2 px-2 text-xs font-medium group-has-disabled:opacity-50"
             >
-              Project Name
+              Project Name (Optional)
             </label>
             <Input 
               id={projectNameId} 
               className="h-10 w-full" 
-              placeholder="Website Redesign Project"
+              placeholder="Website Redesign"
               value={invoice.project || ''}
               onChange={(e) => handleInputChange('project', e.target.value)}
             />
           </div>
-        </div>
 
-        {/* Thank You Message */}
-        <div className="space-y-2">
-          <Label htmlFor={thankYouMessageId} className="text-xs font-medium">Thank You Message</Label>
-          <textarea 
-            id={thankYouMessageId}
-            className="flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-            placeholder="Thank you for choosing our services! We appreciate your business and look forward to working with you again."
-            value={invoice.thankYouMessage || ''}
-            onChange={e => handleInputChange('thankYouMessage', e.target.value)}
-          />
-        </div>
-
-        {/* Terms & Conditions */}
-        <div className="space-y-2">
-          <Label htmlFor={termsConditionsId} className="text-xs font-medium">Terms & Conditions</Label>
-          <textarea 
-            id={termsConditionsId}
-            className="flex min-h-[120px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-            placeholder="Payment is due within 30 days of invoice date. Late payments may incur additional fees. All work is guaranteed for 90 days from completion date."
-            value={invoice.termsConditions || ''}
-            onChange={e => handleInputChange('termsConditions', e.target.value)}
-          />
+          {/* Customer ID */}
+          <div className="group relative">
+            <label
+              htmlFor={customerIdId}
+              className="bg-background text-foreground absolute start-1 top-0 z-10 block -translate-y-1/2 px-2 text-xs font-medium group-has-disabled:opacity-50"
+            >
+              Customer ID (Optional)
+            </label>
+            <Input 
+              id={customerIdId} 
+              className="h-10 w-full" 
+              placeholder="276"
+              value={invoice.customerId || ''}
+              onChange={(e) => handleInputChange('customerId', e.target.value)}
+            />
+          </div>
         </div>
       </CardContent>
     </Card>

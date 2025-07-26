@@ -2,8 +2,9 @@
 
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
-import { DownloadIcon, ArrowLeftIcon, PrinterIcon, ShareIcon } from "lucide-react"
+import { DownloadIcon, ArrowLeftIcon, PrinterIcon, ShareIcon, LinkedinIcon, FacebookIcon, TwitterIcon, InstagramIcon } from "lucide-react"
 import { useInvoice } from "@/context/invoice-context"
+import { downloadInvoicePDF, InvoicePDFGenerator } from "@/app/utils/pdf-generator"
 
 interface InvoicePreviewProps {
   onBackToEdit?: () => void;
@@ -11,6 +12,8 @@ interface InvoicePreviewProps {
 
 const InvoicePreview = ({ onBackToEdit }: InvoicePreviewProps) => {
   const { invoice } = useInvoice()
+
+  const brandColor = invoice.brandColor || '#1a73e8';
 
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('en-US', {
@@ -26,7 +29,26 @@ const InvoicePreview = ({ onBackToEdit }: InvoicePreviewProps) => {
   };
 
   const handlePrint = () => {
-    window.print();
+    // Generate PDF and print it instead of printing the web page
+    const filename = `invoice-${invoice.invoiceNumber || 'INV-2024-001'}.pdf`;
+    const generator = new InvoicePDFGenerator();
+    const pdf = generator.generatePDF(invoice);
+    
+    // Open PDF in new window for printing
+    const pdfBlob = pdf.output('blob');
+    const pdfUrl = URL.createObjectURL(pdfBlob);
+    const printWindow = window.open(pdfUrl);
+    
+    if (printWindow) {
+      printWindow.onload = () => {
+        printWindow.print();
+      };
+    }
+  };
+
+  const handleDownloadPDF = () => {
+    const filename = `invoice-${invoice.invoiceNumber || 'INV-2024-001'}.pdf`;
+    downloadInvoicePDF(invoice, filename);
   };
 
   return (
@@ -47,10 +69,13 @@ const InvoicePreview = ({ onBackToEdit }: InvoicePreviewProps) => {
               <h1 className="text-2xl font-semibold text-gray-900">Invoice Preview</h1>
             </div>
             <div className="flex items-center gap-3">
-              
-              <Button>
+              <Button onClick={handlePrint} variant="outline">
+                <PrinterIcon className="w-4 h-4 mr-2" />
+                Print
+              </Button>
+              <Button onClick={handleDownloadPDF}>
                 <DownloadIcon className="w-4 h-4 mr-2" />
-                Download
+                Download PDF
               </Button>
             </div>
           </div>
@@ -73,7 +98,7 @@ const InvoicePreview = ({ onBackToEdit }: InvoicePreviewProps) => {
                     </div>
                   )}
                   <div>
-                    <h2 className="text-xl font-bold text-gray-900 mb-2">
+                    <h2 className="text-xl font-bold text-gray-900 mb-2" style={{ color: brandColor }}>
                       {invoice.companyName || "Company Name"}
                     </h2>
                     <div className="text-sm text-gray-500 space-y-1">
@@ -83,11 +108,56 @@ const InvoicePreview = ({ onBackToEdit }: InvoicePreviewProps) => {
                       {invoice.companyWebsite && <p>{invoice.companyWebsite}</p>}
                       {invoice.companyTaxId && <p>Tax ID: {invoice.companyTaxId}</p>}
                     </div>
+                    {/* Social Media Links */}
+                    {invoice.socialMedia && (
+                      <div className="flex items-center gap-3 mt-3">
+                        {invoice.socialMedia.linkedin && (
+                          <a 
+                            href={invoice.socialMedia.linkedin} 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            className="text-gray-400 hover:text-blue-600 transition-colors"
+                          >
+                            <LinkedinIcon size={16} />
+                          </a>
+                        )}
+                        {invoice.socialMedia.facebook && (
+                          <a 
+                            href={invoice.socialMedia.facebook} 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            className="text-gray-400 hover:text-blue-600 transition-colors"
+                          >
+                            <FacebookIcon size={16} />
+                          </a>
+                        )}
+                        {invoice.socialMedia.twitter && (
+                          <a 
+                            href={invoice.socialMedia.twitter} 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            className="text-gray-400 hover:text-blue-400 transition-colors"
+                          >
+                            <TwitterIcon size={16} />
+                          </a>
+                        )}
+                        {invoice.socialMedia.instagram && (
+                          <a 
+                            href={invoice.socialMedia.instagram} 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            className="text-gray-400 hover:text-pink-600 transition-colors"
+                          >
+                            <InstagramIcon size={16} />
+                          </a>
+                        )}
+                      </div>
+                    )}
                   </div>
                 </div>
                 {/* Invoice Details */}
                 <div className="text-right min-w-[220px]">
-                  <h1 className="text-xl font-bold text-gray-900 mb-4 tracking-wide">INVOICE</h1>
+                  <h1 className="text-xl font-bold mb-4 tracking-wide" style={{ color: brandColor }}>INVOICE</h1>
                   <div className="divide-y divide-gray-200 text-sm">
                     <div className="flex justify-between py-1">
                       <span className="font-medium text-gray-700">INV #</span>
@@ -99,7 +169,7 @@ const InvoicePreview = ({ onBackToEdit }: InvoicePreviewProps) => {
                     </div>
                     <div className="flex justify-between py-1">
                       <span className="font-medium text-gray-700">Customer ID</span>
-                      <span className="text-gray-900">276</span>
+                      <span className="text-gray-900">{invoice.customerId || '276'}</span>
                     </div>
                     <div className="flex justify-between py-1">
                       <span className="font-medium text-gray-700">PO Number</span>
@@ -119,7 +189,7 @@ const InvoicePreview = ({ onBackToEdit }: InvoicePreviewProps) => {
 
               {/* Bill To Section */}
               <div className="mb-8">
-                <div className="bg-gray-900 text-white px-4 py-2 mb-4">
+                <div className="px-4 py-2 mb-4" style={{ background: brandColor, color: '#fff' }}>
                   <h3 className="font-semibold">BILL TO</h3>
                 </div>
                 <div className="text-sm text-gray-700 space-y-1 bg-gray-50 rounded p-4">
@@ -133,7 +203,7 @@ const InvoicePreview = ({ onBackToEdit }: InvoicePreviewProps) => {
               </div>
 
               {/* Items Table */}
-              <div className="bg-gray-900 text-white px-4 py-2 mb-4">
+              <div className="px-4 py-2 mb-4" style={{ background: brandColor, color: '#fff' }}>
                 <h3 className="font-semibold">ITEMIZED CHARGES</h3>
               </div>
               <div className="mb-8">
@@ -180,7 +250,7 @@ const InvoicePreview = ({ onBackToEdit }: InvoicePreviewProps) => {
               <div className="flex flex-col md:flex-row md:justify-between gap-8">
                 {/* Payment Instructions */}
                 <div className="flex-1">
-                  <div className="bg-gray-900 text-white px-4 py-2 mb-4">
+                  <div className="px-4 py-2 mb-4" style={{ background: brandColor, color: '#fff' }}>
                     <h3 className="font-semibold">PAYMENT INSTRUCTIONS</h3>
                   </div>
                   <div className="text-sm text-gray-700 space-y-1 bg-gray-50 rounded p-4">
@@ -190,7 +260,7 @@ const InvoicePreview = ({ onBackToEdit }: InvoicePreviewProps) => {
                 </div>
                 {/* Payment Summary Section Header */}
                 <div className="w-full md:w-64 mt-8 md:mt-0">
-                  <div className="bg-gray-900 text-white px-4 py-2 mb-4">
+                  <div className="px-4 py-2 mb-4" style={{ background: brandColor, color: '#fff' }}>
                     <h3 className="font-semibold">PAYMENT SUMMARY</h3>
                   </div>
                   <div className="space-y-2 text-sm bg-gray-50 rounded p-4">
@@ -250,7 +320,7 @@ const InvoicePreview = ({ onBackToEdit }: InvoicePreviewProps) => {
 
               {/* Legal/Compliance Section */}
               <div className="mt-8">
-                <div className="bg-gray-900 text-white px-4 py-2 mb-4">
+                <div className="px-4 py-2 mb-4" style={{ background: brandColor, color: '#fff' }}>
                   <h3 className="font-semibold">LEGAL / COMPLIANCE</h3>
                 </div>
                 <div className="text-sm text-gray-700 bg-gray-50 rounded p-4 whitespace-pre-line">
@@ -260,7 +330,7 @@ const InvoicePreview = ({ onBackToEdit }: InvoicePreviewProps) => {
               {/* Terms & Conditions Section */}
               {invoice.termsConditions && (
                 <div className="mt-8">
-                  <div className="bg-gray-900 text-white px-4 py-2 mb-4">
+                  <div className="px-4 py-2 mb-4" style={{ background: brandColor, color: '#fff' }}>
                     <h3 className="font-semibold">TERMS & CONDITIONS</h3>
                   </div>
                   <div className="text-sm text-gray-700 bg-gray-50 rounded p-4 whitespace-pre-line">
@@ -272,7 +342,7 @@ const InvoicePreview = ({ onBackToEdit }: InvoicePreviewProps) => {
               {/* Footer */}
               <div className="mt-10 pt-8 border-t border-gray-100">
                 {/* Company Information Footer Header */}
-                <div className="bg-gray-900 text-white px-4 py-2 mb-4">
+                <div className="px-4 py-2 mb-4" style={{ background: brandColor, color: '#fff' }}>
                   <h3 className="font-semibold">COMPANY INFORMATION</h3>
                 </div>
                 <div className="flex flex-col md:flex-row md:justify-between items-end gap-4">
@@ -295,7 +365,7 @@ const InvoicePreview = ({ onBackToEdit }: InvoicePreviewProps) => {
                 </div>
                 <div className="mt-4 text-xs text-gray-400 text-center">
                   <p>{invoice.companyName || 'Your Company'}</p>
-                  <p>© 2024 All rights reserved</p>
+                  <p>© {new Date().getFullYear()} All rights reserved</p>
                 </div>
               </div>
             </div>

@@ -14,6 +14,7 @@ export const initialInvoice: Invoice = {
   dueDate: "2024-02-15",
   poNumber: "PO-2024-001",
   project: "Website Redesign",
+  customerId: "276",
   items: [
     {
       id: "1",
@@ -55,6 +56,12 @@ export const initialInvoice: Invoice = {
   qrCodeData: "",
   qrCodeImage: "",
   digitalSignature: "",
+  socialMedia: {
+    linkedin: "https://linkedin.com/company/acmecorp",
+    facebook: "https://facebook.com/acmecorp",
+    twitter: "https://twitter.com/acmecorp",
+    instagram: "https://instagram.com/acmecorp"
+  },
   selectedPaymentMethods: {
     bankTransfer: false,
     paypal: false,
@@ -75,5 +82,6 @@ export const initialInvoice: Invoice = {
     cryptoWallet: ""
   },
   thankYouMessage: "",
-  termsConditions: ""
+  termsConditions: "",
+  brandColor: "#1a73e8"
 };

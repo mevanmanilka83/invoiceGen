@@ -20,6 +20,7 @@ export interface Invoice {
   dueDate: string;
   poNumber?: string;
   project?: string;
+  customerId?: string;
   items: InvoiceItem[];
   subtotal: number;
   discount: number;
@@ -32,6 +33,12 @@ export interface Invoice {
   qrCodeData?: string;
   qrCodeImage?: string;
   digitalSignature?: string;
+  socialMedia?: {
+    linkedin?: string;
+    facebook?: string;
+    twitter?: string;
+    instagram?: string;
+  };
   selectedPaymentMethods?: {
     bankTransfer: boolean;
     paypal: boolean;
@@ -54,4 +61,5 @@ export interface Invoice {
   thankYouMessage?: string;
   termsConditions?: string;
   legalCompliance?: string;
+  brandColor?: string;
 }

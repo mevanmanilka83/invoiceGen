@@ -356,6 +356,8 @@ const CompanyDetails = () => {
               id={brandColorId} 
               type="color"
               className="h-10 w-full" 
+              value={invoice.brandColor || '#1a73e8'}
+              onChange={e => handleInputChange('brandColor', e.target.value)}
             />
           </div>
         </div>
