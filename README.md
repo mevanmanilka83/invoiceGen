@@ -19,18 +19,7 @@ InvoiceGen combines the best of professional invoicing, privacy protection, and 
 
 Built with modern web technologies and designed for privacy, InvoiceGen offers a responsive, accessible, and beautiful experience across all devices.
 
-## Features
 
-- **Local Processing**: All invoice data stays in your browser
-- **Real-time Preview**: See changes instantly as you build your invoice
-- **Professional PDF Generation**: High-quality, print-ready invoices
-- **Custom Branding**: Add your logo, colors, and company details
-- **Itemized Charges**: Easy-to-use line item management
-- **Tax Calculations**: Automatic subtotal, tax, and total calculations
-- **Client Management**: Store and manage client information
-- **QR Code Integration**: Add payment QR codes to invoices
-- **Digital Signatures**: Include digital signatures for authenticity
-- **Responsive Design**: Works perfectly on desktop, tablet, and mobile
 
 ## Privacy & Security
 
