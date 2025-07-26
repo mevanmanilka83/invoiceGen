@@ -25,28 +25,6 @@ Built with modern web technologies and designed for privacy, InvoiceGen offers a
 
 Your privacy is our top priority. All processing happens locally in your browser, ensuring your business data never leaves your device. No data is sent to external servers, and no account registration is required. Your invoice information, client details, and business data remain completely private and secure throughout the entire creation process.
 
-## Getting Started
-
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/yourusername/invoice-gen.git
-   cd invoice-gen
-   ```
-
-2. **Install dependencies**
-   ```bash
-   npm install
-   ```
-
-3. **Run the development server**
-   ```bash
-   npm run dev
-   ```
-
-4. **Open your browser**
-   Navigate to [http://localhost:3000](http://localhost:3000)
-
-
 
 ## Contributing
 
