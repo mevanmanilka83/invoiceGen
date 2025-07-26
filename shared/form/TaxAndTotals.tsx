@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { PlusIcon, Trash2Icon } from "lucide-react"
+import { useInvoice } from '@/context/invoice-context'
 
 interface TaxRate {
   id: string
@@ -17,6 +18,8 @@ const TaxAndTotals = () => {
   const [taxRates, setTaxRates] = useState<TaxRate[]>([
     { id: 'tax-1', name: 'Sales Tax', rate: '' }
   ])
+
+  const { invoice } = useInvoice()
 
   const addTaxRate = () => {
     const newId = `tax-${Date.now()}`
@@ -33,6 +36,13 @@ const TaxAndTotals = () => {
     setTaxRates(taxRates.map(tax => 
       tax.id === id ? { ...tax, [field]: value } : tax
     ))
+  }
+
+  const formatCurrency = (amount: number) => {
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD'
+    }).format(amount)
   }
 
   return (
@@ -60,6 +70,8 @@ const TaxAndTotals = () => {
               step="0.01"
               className="h-10 w-full" 
               placeholder="10.00"
+              value="10.00"
+              disabled
             />
           </div>
 
@@ -77,6 +89,8 @@ const TaxAndTotals = () => {
               step="0.01"
               className="h-10 w-full" 
               placeholder="50.00"
+              value={invoice.discount.toFixed(2)}
+              disabled
             />
           </div>
         </div>
@@ -152,25 +166,25 @@ const TaxAndTotals = () => {
           {/* Subtotal - Calculated Value */}
           <div className="flex items-center justify-between border-t pt-4">
             <span className="text-lg font-semibold">Subtotal</span>
-            <span className="text-lg font-semibold">$0.00</span>
+            <span className="text-lg font-semibold">{formatCurrency(invoice.subtotal)}</span>
           </div>
 
           {/* Discount - Calculated Value */}
           <div className="flex items-center justify-between">
-            <span className="text-sm text-muted-foreground">Discount</span>
-            <span className="text-sm text-muted-foreground">-$0.00</span>
+            <span className="text-sm text-muted-foreground">Discount (10%)</span>
+            <span className="text-sm text-muted-foreground">-{formatCurrency(invoice.discount)}</span>
           </div>
 
           {/* Tax - Calculated Value */}
           <div className="flex items-center justify-between">
             <span className="text-sm text-muted-foreground">Tax</span>
-            <span className="text-sm text-muted-foreground">$0.00</span>
+            <span className="text-sm text-muted-foreground">{formatCurrency(invoice.tax)}</span>
           </div>
 
           {/* Total - Calculated Value */}
           <div className="flex items-center justify-between border-t pt-4">
             <span className="text-lg font-semibold">Total</span>
-            <span className="text-lg font-semibold">$0.00</span>
+            <span className="text-lg font-semibold">{formatCurrency(invoice.total)}</span>
           </div>
         </div>
       </CardContent>

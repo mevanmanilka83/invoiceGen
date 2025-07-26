@@ -3,12 +3,19 @@ import React, { useId } from 'react'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { useInvoice } from '@/context/invoice-context'
 
 const InvoiceDetails = () => {
   const poNumberId = useId()
   const projectNameId = useId()
   const thankYouMessageId = useId()
   const termsConditionsId = useId()
+
+  const { invoice, updateInvoice } = useInvoice()
+
+  const handleInputChange = (field: string, value: string) => {
+    updateInvoice({ [field]: value });
+  };
 
   return (
     <Card>
@@ -32,6 +39,8 @@ const InvoiceDetails = () => {
               id={poNumberId} 
               className="h-10 w-full" 
               placeholder="PO-2024-001"
+              value={invoice.poNumber || ''}
+              onChange={(e) => handleInputChange('poNumber', e.target.value)}
             />
           </div>
 
@@ -47,6 +56,8 @@ const InvoiceDetails = () => {
               id={projectNameId} 
               className="h-10 w-full" 
               placeholder="Website Redesign Project"
+              value={invoice.project || ''}
+              onChange={(e) => handleInputChange('project', e.target.value)}
             />
           </div>
         </div>
@@ -58,6 +69,8 @@ const InvoiceDetails = () => {
             id={thankYouMessageId}
             className="flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
             placeholder="Thank you for choosing our services! We appreciate your business and look forward to working with you again."
+            value={invoice.thankYouMessage || ''}
+            onChange={e => handleInputChange('thankYouMessage', e.target.value)}
           />
         </div>
 
@@ -68,6 +81,8 @@ const InvoiceDetails = () => {
             id={termsConditionsId}
             className="flex min-h-[120px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
             placeholder="Payment is due within 30 days of invoice date. Late payments may incur additional fees. All work is guaranteed for 90 days from completion date."
+            value={invoice.termsConditions || ''}
+            onChange={e => handleInputChange('termsConditions', e.target.value)}
           />
         </div>
       </CardContent>

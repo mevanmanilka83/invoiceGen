@@ -1,50 +1,33 @@
-import React, { useId, useState, useRef } from 'react'
+import React, { useId, useRef } from 'react'
 import { PlusIcon, Trash2Icon } from "lucide-react"
 
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
-
-interface InvoiceItem {
-  id: string
-  description: string
-  quantity: string
-  rate: string
-  amount: string
-}
+import { useInvoice } from '@/context/invoice-context'
+import { InvoiceItem } from '@/app/types/invoice'
 
 const ItemList = () => {
   const idCounter = useRef(0)
-  const [items, setItems] = useState<InvoiceItem[]>([
-    {
-      id: `item-${idCounter.current++}`,
-      description: '',
-      quantity: '',
-      rate: '',
-      amount: ''
-    }
-  ])
+  const { invoice, addItem, updateItem, removeItem } = useInvoice()
 
-  const addItem = () => {
-    setItems([...items, {
-      id: `item-${idCounter.current++}`,
+  const handleAddItem = () => {
+    const newItem: InvoiceItem = {
+      id: `item-${Date.now()}`,
       description: '',
-      quantity: '',
-      rate: '',
-      amount: ''
-    }])
+      quantity: 1,
+      rate: 0,
+      amount: 0
+    }
+    addItem(newItem)
   }
 
-  const deleteItem = (id: string) => {
-    if (items.length > 1) {
-      setItems(items.filter(item => item.id !== id))
-    }
+  const handleUpdateItem = (id: string, field: keyof InvoiceItem, value: string | number) => {
+    updateItem(id, { [field]: value })
   }
 
-  const updateItem = (id: string, field: keyof InvoiceItem, value: string) => {
-    setItems(items.map(item => 
-      item.id === id ? { ...item, [field]: value } : item
-    ))
+  const handleDeleteItem = (id: string) => {
+    removeItem(id)
   }
 
   return (
@@ -56,21 +39,21 @@ const ItemList = () => {
             Add invoice items with description, quantity, rate, and amount
           </CardDescription>
         </div>
-        <Button variant="outline" className="aspect-square max-sm:p-0" onClick={addItem}>
+        <Button variant="outline" className="aspect-square max-sm:p-0" onClick={handleAddItem}>
           <PlusIcon className="opacity-60 sm:-ms-1" size={16} aria-hidden="true" />
           <span className="max-sm:sr-only">Add new</span>
         </Button>
       </CardHeader>
       <CardContent className="space-y-6">
-        {items.map((item, index) => (
+        {invoice.items.map((item, index) => (
           <div key={item.id} className="space-y-4">
             <div className="flex items-center justify-between">
               <h4 className="text-sm font-medium text-muted-foreground">Item {index + 1}</h4>
-              {items.length > 1 && (
+              {invoice.items.length > 1 && (
                 <Button
                   variant="outline"
                   size="sm"
-                  onClick={() => deleteItem(item.id)}
+                  onClick={() => handleDeleteItem(item.id)}
                   className="h-8 w-8 p-0"
                 >
                   <Trash2Icon className="h-4 w-4" />
@@ -90,7 +73,7 @@ const ItemList = () => {
                 <Input 
                   id={`description-${item.id}`}
                   value={item.description}
-                  onChange={(e) => updateItem(item.id, 'description', e.target.value)}
+                  onChange={(e) => handleUpdateItem(item.id, 'description', e.target.value)}
                   className="h-10 w-full" 
                   placeholder="Web development services"
                 />
@@ -108,7 +91,7 @@ const ItemList = () => {
                   id={`quantity-${item.id}`}
                   type="number"
                   value={item.quantity}
-                  onChange={(e) => updateItem(item.id, 'quantity', e.target.value)}
+                  onChange={(e) => handleUpdateItem(item.id, 'quantity', parseInt(e.target.value) || 0)}
                   className="h-10 w-full" 
                   placeholder="1"
                 />
@@ -127,7 +110,7 @@ const ItemList = () => {
                   type="number"
                   step="0.01"
                   value={item.rate}
-                  onChange={(e) => updateItem(item.id, 'rate', e.target.value)}
+                  onChange={(e) => handleUpdateItem(item.id, 'rate', parseFloat(e.target.value) || 0)}
                   className="h-10 w-full" 
                   placeholder="150.00"
                 />
@@ -146,7 +129,7 @@ const ItemList = () => {
                   type="number"
                   step="0.01"
                   value={item.amount}
-                  onChange={(e) => updateItem(item.id, 'amount', e.target.value)}
+                  onChange={(e) => handleUpdateItem(item.id, 'amount', parseFloat(e.target.value) || 0)}
                   className="h-10 w-full" 
                   placeholder="150.00"
                 />

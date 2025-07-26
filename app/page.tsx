@@ -9,8 +9,12 @@ import InvoiceForm from "@/shared/invoice-form"
 export default function Home() {
   const [showPreview, setShowPreview] = useState(false)
 
+  const handleBackToEdit = () => {
+    setShowPreview(false);
+  };
+
   if (showPreview) {
-    return <InvoicePreview />
+    return <InvoicePreview onBackToEdit={handleBackToEdit} />
   }
 
   return (

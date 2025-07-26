@@ -1,8 +1,12 @@
-import React, { useId, useState } from 'react'
+import React, { useId, useState, useRef, useEffect } from 'react'
 
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { Button } from '@/components/ui/button'
+import { useInvoice } from '@/context/invoice-context'
+import QRCode from 'qrcode'
+import SignatureCanvas from 'react-signature-canvas'
 
 const PaymentDetails = () => {
   const bankNameId = useId()
@@ -14,8 +18,11 @@ const PaymentDetails = () => {
   const zelleEmailId = useId()
   const checkAddressId = useId()
   const cryptoWalletId = useId()
-  const qrCodeId = useId()
-  const digitalSignatureId = useId()
+  const qrCodeDataId = useId()
+
+  const { invoice, updateInvoice } = useInvoice()
+  const signaturePadRef = useRef<SignatureCanvas>(null)
+  const [qrCodeImage, setQrCodeImage] = useState<string>('')
 
   // Payment method selection states
   const [selectedMethods, setSelectedMethods] = useState({
@@ -28,12 +35,88 @@ const PaymentDetails = () => {
     crypto: false
   })
 
+  // Payment information state
+  const [paymentInfo, setPaymentInfo] = useState({
+    bankName: 'Chase Bank',
+    accountNumber: '1234567890',
+    routingNumber: '021000021',
+    paypalEmail: 'payments@acmecorp.com',
+    venmoUsername: '@acmecorp',
+    cashAppCashtag: '$acmecorp',
+    zelleEmail: 'payments@acmecorp.com',
+    cryptoWallet: ''
+  })
+
   const handleMethodChange = (method: keyof typeof selectedMethods) => {
-    setSelectedMethods(prev => ({
-      ...prev,
-      [method]: !prev[method]
-    }))
+    const newSelectedMethods = {
+      ...selectedMethods,
+      [method]: !selectedMethods[method]
+    };
+    setSelectedMethods(newSelectedMethods);
+    updateInvoice({ selectedPaymentMethods: newSelectedMethods });
   }
+
+  const handlePaymentInfoChange = (field: keyof typeof paymentInfo, value: string) => {
+    const newPaymentInfo = {
+      ...paymentInfo,
+      [field]: value
+    };
+    setPaymentInfo(newPaymentInfo);
+    updateInvoice({ paymentInfo: newPaymentInfo });
+  }
+
+  const handleInputChange = (field: string, value: string) => {
+    updateInvoice({ [field]: value });
+  };
+
+  const generateQRCode = async () => {
+    if (invoice.qrCodeData) {
+      try {
+        const qrDataUrl = await QRCode.toDataURL(invoice.qrCodeData, {
+          width: 200,
+          margin: 2,
+          color: {
+            dark: '#000000',
+            light: '#FFFFFF'
+          }
+        });
+        setQrCodeImage(qrDataUrl);
+        updateInvoice({ qrCodeImage: qrDataUrl });
+      } catch (error) {
+        console.error('Error generating QR code:', error);
+      }
+    }
+  };
+
+  const clearSignature = () => {
+    if (signaturePadRef.current) {
+      signaturePadRef.current.clear();
+      updateInvoice({ digitalSignature: '' });
+    }
+  };
+
+  const saveSignature = () => {
+    if (signaturePadRef.current) {
+      const signatureData = signaturePadRef.current.getTrimmedCanvas().toDataURL('image/png');
+      updateInvoice({ digitalSignature: signatureData });
+    }
+  };
+
+  useEffect(() => {
+    if (invoice.qrCodeData) {
+      generateQRCode();
+    }
+  }, [invoice.qrCodeData]);
+
+  // Sync with invoice state on mount
+  useEffect(() => {
+    if (invoice.selectedPaymentMethods) {
+      setSelectedMethods(invoice.selectedPaymentMethods);
+    }
+    if (invoice.paymentInfo) {
+      setPaymentInfo(invoice.paymentInfo);
+    }
+  }, [invoice.selectedPaymentMethods, invoice.paymentInfo]);
 
   return (
     <Card>
@@ -130,6 +213,8 @@ const PaymentDetails = () => {
                   id={bankNameId} 
                   className="h-10 w-full" 
                   placeholder="Chase Bank"
+                  value={paymentInfo.bankName}
+                  onChange={(e) => handlePaymentInfoChange('bankName', e.target.value)}
                 />
               </div>
               <div className="group relative">
@@ -143,6 +228,8 @@ const PaymentDetails = () => {
                   id={accountNumberId} 
                   className="h-10 w-full" 
                   placeholder="1234567890"
+                  value={paymentInfo.accountNumber}
+                  onChange={(e) => handlePaymentInfoChange('accountNumber', e.target.value)}
                 />
               </div>
               <div className="group relative">
@@ -156,6 +243,8 @@ const PaymentDetails = () => {
                   id={routingNumberId} 
                   className="h-10 w-full" 
                   placeholder="021000021"
+                  value={paymentInfo.routingNumber}
+                  onChange={(e) => handlePaymentInfoChange('routingNumber', e.target.value)}
                 />
               </div>
             </div>
@@ -178,6 +267,8 @@ const PaymentDetails = () => {
                 type="email"
                 className="h-10 w-full" 
                 placeholder="payments@yourcompany.com"
+                value={paymentInfo.paypalEmail}
+                onChange={(e) => handlePaymentInfoChange('paypalEmail', e.target.value)}
               />
             </div>
           </div>
@@ -198,6 +289,8 @@ const PaymentDetails = () => {
                 id={venmoId} 
                 className="h-10 w-full" 
                 placeholder="@yourusername"
+                value={paymentInfo.venmoUsername}
+                onChange={(e) => handlePaymentInfoChange('venmoUsername', e.target.value)}
               />
             </div>
           </div>
@@ -218,6 +311,8 @@ const PaymentDetails = () => {
                 id={cashAppId} 
                 className="h-10 w-full" 
                 placeholder="$yourcashtag"
+                value={paymentInfo.cashAppCashtag}
+                onChange={(e) => handlePaymentInfoChange('cashAppCashtag', e.target.value)}
               />
             </div>
           </div>
@@ -238,6 +333,8 @@ const PaymentDetails = () => {
                 id={zelleEmailId} 
                 className="h-10 w-full" 
                 placeholder="payments@yourcompany.com"
+                value={paymentInfo.zelleEmail}
+                onChange={(e) => handlePaymentInfoChange('zelleEmail', e.target.value)}
               />
             </div>
           </div>
@@ -258,6 +355,8 @@ const PaymentDetails = () => {
                 id={checkAddressId} 
                 className="h-10 w-full" 
                 placeholder="123 Business St, New York, NY 10001"
+                value={invoice.companyAddress}
+                disabled
               />
             </div>
           </div>
@@ -278,35 +377,78 @@ const PaymentDetails = () => {
                 id={cryptoWalletId} 
                 className="h-10 w-full" 
                 placeholder="0x1234...5678"
+                value={paymentInfo.cryptoWallet}
+                onChange={(e) => handlePaymentInfoChange('cryptoWallet', e.target.value)}
               />
             </div>
           </div>
         )}
 
-        {/* Digital Elements */}
+        {/* QR Code & Digital Signature */}
         <div className="space-y-4">
-          <h4 className="text-sm font-medium text-muted-foreground">Digital Elements (Optional)</h4>
+          <h4 className="text-sm font-medium text-muted-foreground">QR Code & Digital Signature</h4>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* QR Code for Payment */}
-            <div className="*:not-first:mt-2">
-              <Label htmlFor={qrCodeId} className="text-xs font-medium">QR Code</Label>
-              <Input
-                id={qrCodeId}
-                className="p-0 pe-3 file:me-3 file:border-0 file:border-e h-10"
-                type="file"
-                accept="image/*"
-              />
+            {/* QR Code Section */}
+            <div className="space-y-4">
+              <div className="group relative">
+                <label
+                  htmlFor={qrCodeDataId}
+                  className="bg-background text-foreground absolute start-1 top-0 z-10 block -translate-y-1/2 px-2 text-xs font-medium group-has-disabled:opacity-50"
+                >
+                  QR Code Data
+                </label>
+                <Input
+                  id={qrCodeDataId}
+                  className="h-10 w-full"
+                  placeholder="Enter payment link or invoice details"
+                  value={invoice.qrCodeData || ''}
+                  onChange={(e) => handleInputChange('qrCodeData', e.target.value)}
+                />
+              </div>
+              <Button 
+                onClick={generateQRCode}
+                disabled={!invoice.qrCodeData}
+                className="w-full"
+              >
+                Generate QR Code
+              </Button>
+              {qrCodeImage && (
+                <div className="flex justify-center">
+                  <img src={qrCodeImage} alt="QR Code" className="w-32 h-32 object-contain" />
+                </div>
+              )}
             </div>
 
-            {/* Digital Signature */}
-            <div className="*:not-first:mt-2">
-              <Label htmlFor={digitalSignatureId} className="text-xs font-medium">Digital Signature</Label>
-              <Input
-                id={digitalSignatureId}
-                className="p-0 pe-3 file:border-0 file:border-e h-10"
-                type="file"
-                accept="image/*"
-              />
+            {/* Digital Signature Section */}
+            <div className="space-y-4">
+              <div className="border-2 border-gray-300 rounded-lg p-4">
+                <SignatureCanvas
+                  ref={signaturePadRef}
+                  canvasProps={{
+                    className: 'w-full h-32 border border-gray-300 rounded'
+                  }}
+                />
+              </div>
+              <div className="flex gap-2">
+                <Button 
+                  onClick={saveSignature}
+                  className="flex-1"
+                >
+                  Save Signature
+                </Button>
+                <Button 
+                  onClick={clearSignature}
+                  variant="outline"
+                  className="flex-1"
+                >
+                  Clear
+                </Button>
+              </div>
+              {invoice.digitalSignature && (
+                <div className="flex justify-center">
+                  <img src={invoice.digitalSignature} alt="Digital Signature" className="max-w-full max-h-16 object-contain" />
+                </div>
+              )}
             </div>
           </div>
         </div>

@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Button } from '@/components/ui/button'
+import { useInvoice } from '@/context/invoice-context'
 
 const CompanyDetails = () => {
   const companyNameId = useId()
@@ -22,6 +23,8 @@ const CompanyDetails = () => {
   const currencyWordsId = useId()
   const brandColorId = useId()
 
+  const { invoice, updateInvoice } = useInvoice()
+
   // State for social media fields
   const [socialMedia, setSocialMedia] = useState({
     linkedin: '',
@@ -35,6 +38,22 @@ const CompanyDetails = () => {
   const [customCurrency, setCustomCurrency] = useState('')
   const [exchangeRate, setExchangeRate] = useState('')
   const [baseCurrency, setBaseCurrency] = useState('usd')
+
+  const handleInputChange = (field: string, value: string) => {
+    updateInvoice({ [field]: value });
+  };
+
+  const handleLogoChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const result = e.target?.result as string;
+        updateInvoice({ companyLogo: result });
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
   const deleteSocialMedia = (platform: keyof typeof socialMedia) => {
     setSocialMedia(prev => ({
@@ -75,6 +94,8 @@ const CompanyDetails = () => {
               id={companyNameId} 
               className="h-10 w-full" 
               placeholder="Acme Corporation"
+              value={invoice.companyName}
+              onChange={(e) => handleInputChange('companyName', e.target.value)}
             />
           </div>
 
@@ -91,7 +112,17 @@ const CompanyDetails = () => {
               className="p-0 pe-3 file:me-3 file:border-0 file:border-e h-10 w-full"
               type="file"
               accept="image/*"
+              onChange={handleLogoChange}
             />
+            {invoice.companyLogo && (
+              <div className="mt-2">
+                <img 
+                  src={invoice.companyLogo} 
+                  alt="Company Logo" 
+                  className="h-12 w-auto object-contain"
+                />
+              </div>
+            )}
           </div>
         </div>
 
@@ -109,6 +140,8 @@ const CompanyDetails = () => {
               id={companyAddressId} 
               className="h-10 w-full" 
               placeholder="123 Business St, Suite 100, New York, NY 10001"
+              value={invoice.companyAddress}
+              onChange={(e) => handleInputChange('companyAddress', e.target.value)}
             />
           </div>
 
@@ -125,6 +158,8 @@ const CompanyDetails = () => {
               type="tel"
               className="h-10 w-full" 
               placeholder="+1 (555) 123-4567"
+              value={invoice.companyPhone}
+              onChange={(e) => handleInputChange('companyPhone', e.target.value)}
             />
           </div>
         </div>
@@ -144,6 +179,8 @@ const CompanyDetails = () => {
               type="email"
               className="h-10 w-full" 
               placeholder="contact@acmecorp.com"
+              value={invoice.companyEmail}
+              onChange={(e) => handleInputChange('companyEmail', e.target.value)}
             />
           </div>
 
@@ -160,6 +197,8 @@ const CompanyDetails = () => {
               type="url"
               className="h-10 w-full" 
               placeholder="https://www.acmecorp.com"
+              value={invoice.companyWebsite}
+              onChange={(e) => handleInputChange('companyWebsite', e.target.value)}
             />
           </div>
         </div>
@@ -300,6 +339,8 @@ const CompanyDetails = () => {
               id={taxNumberId} 
               className="h-10 w-full" 
               placeholder="12-3456789 or VAT123456789"
+              value={invoice.companyTaxId}
+              onChange={(e) => handleInputChange('companyTaxId', e.target.value)}
             />
           </div>
 
