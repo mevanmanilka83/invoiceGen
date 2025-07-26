@@ -3,6 +3,7 @@
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Eye } from "lucide-react"
+import Link from "next/link"
 import InvoicePreview from "@/shared/invoice-preview"
 import InvoiceForm from "@/shared/invoice-form"
 
@@ -41,6 +42,29 @@ export default function Home() {
           </div>
         </div>
         <InvoiceForm />
+        
+        {/* Footer with Terms and Privacy Links */}
+        <footer className="mt-12 pt-8 border-t border-gray-200">
+          <div className="flex flex-col sm:flex-row justify-between items-center text-sm text-gray-500">
+            <div className="mb-4 sm:mb-0">
+              <p>&copy; 2025 InvoiceGen. All rights reserved.</p>
+            </div>
+            <div className="flex space-x-6">
+              <Link 
+                href="/terms" 
+                className="text-gray-500 hover:text-gray-700 transition-colors"
+              >
+                Terms of Service
+              </Link>
+              <Link 
+                href="/privacy" 
+                className="text-gray-500 hover:text-gray-700 transition-colors"
+              >
+                Privacy Policy
+              </Link>
+            </div>
+          </div>
+        </footer>
       </div>
     </div>
   )
