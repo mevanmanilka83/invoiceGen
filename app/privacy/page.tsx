@@ -45,7 +45,7 @@ export default function PrivacyPolicy() {
           <div className="space-y-4">
             <div>
               <h3 className="block mb-2 text-base font-semibold">Feature Enhancement</h3>
-              <p className="text-base">Anonymous usage data helps us improve Invoice Generator's form capabilities, PDF generation features, and overall performance. No personal or business data is collected.</p>
+              <p className="text-base">Anonymous usage data helps us improve Invoice Generator&apos;s form capabilities, PDF generation features, and overall performance. No personal or business data is collected.</p>
             </div>
             <div>
               <h3 className="block mb-2 text-base font-semibold">Technical Support</h3>
