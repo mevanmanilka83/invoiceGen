@@ -16,6 +16,11 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Invoice Generator",
   description: "Create professional invoices with ease",
+  icons: {
+    icon: "/invoice.svg",
+    shortcut: "/invoice.svg",
+    apple: "/invoice.svg",
+  },
 };
 
 export default function RootLayout({
