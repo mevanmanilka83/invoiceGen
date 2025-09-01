@@ -65,27 +65,27 @@ const InvoicePreview = ({ onBackToEdit }: InvoicePreviewProps) => {
           width: 100% !important;
           margin: 0 !important;
         }
-        /* Force invoice to use full page */
+        /* Force invoice to use full page - minimal top spacing */
         [data-invoice-content],
         [data-invoice-content] > div,
         [data-invoice-content] .container,
         [data-invoice-content] .max-w-4xl {
           width: 100% !important;
           max-width: none !important;
-          margin: 0 auto !important;
-          padding: 0.25in !important;
+          margin: 0 !important;
+          padding: 0.125in 0.125in 0.125in 0.125in !important;
           left: 0 !important;
           right: 0 !important;
         }
-        /* Override any remaining spacing */
+        /* Override any remaining spacing - minimal top padding */
         .p-8, .mx-auto {
-          padding: 0.25in !important;
-          margin: 0 auto !important;
+          padding: 0.125in 0.125in 0.125in 0.125in !important;
+          margin: 0 !important;
         }
         /* Add minimal content padding for readability */
         [data-invoice-content] > div {
-          padding: 0.25in !important;
-          margin: 0 auto !important;
+          padding: 0.125in 0.125in 0.125in 0.125in !important;
+          margin: 0 !important;
           width: 100% !important;
         }
         /* Maximize space usage - balanced spacing */
@@ -151,6 +151,30 @@ const InvoicePreview = ({ onBackToEdit }: InvoicePreviewProps) => {
         [data-invoice-content] > div:nth-last-child(1) {
           margin-top: auto !important;
           padding-top: 1rem !important;
+        }
+        
+        /* Ensure QR code and signature maintain column layout in print */
+        [data-invoice-content] .mt-10.pt-8.border-t.border-gray-100 .grid {
+          display: grid !important;
+          grid-template-columns: 1fr 1fr !important;
+          gap: 1rem !important;
+        }
+        
+        /* Remove all top spacing that causes huge gaps at beginning */
+        [data-invoice-content] > div:first-child {
+          margin-top: 0 !important;
+          padding-top: 0 !important;
+        }
+        
+        [data-invoice-content] > div:first-child > *:first-child {
+          margin-top: 0 !important;
+          padding-top: 0 !important;
+        }
+        
+        /* Remove top spacing from invoice header */
+        [data-invoice-content] .flex.justify-between.items-start {
+          margin-top: 0 !important;
+          padding-top: 0 !important;
         }
       }
     `;
