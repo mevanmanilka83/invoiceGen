@@ -24,7 +24,7 @@ const PaymentDetails = () => {
   const signaturePadRef = useRef<SignatureCanvas>(null)
   const [qrCodeImage, setQrCodeImage] = useState<string>('')
 
-  // Payment method selection states
+
   const [selectedMethods, setSelectedMethods] = useState({
     bankTransfer: false,
     paypal: false,
@@ -35,7 +35,7 @@ const PaymentDetails = () => {
     crypto: false
   })
 
-  // Payment information state
+
   const [paymentInfo, setPaymentInfo] = useState({
     bankName: 'Chase Bank',
     accountNumber: '1234567890',
@@ -127,7 +127,7 @@ const PaymentDetails = () => {
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">
-        {/* Payment Method Selection */}
+
         <div className="space-y-4">
           <Label className="text-xs font-medium">Select Payment Methods</Label>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
@@ -197,7 +197,7 @@ const PaymentDetails = () => {
           </div>
         </div>
 
-        {/* Bank Transfer Details */}
+
         {selectedMethods.bankTransfer && (
           <div className="space-y-4 p-4 border rounded-lg bg-muted/30">
             <h4 className="text-sm font-medium">Bank Transfer Details</h4>
@@ -251,7 +251,7 @@ const PaymentDetails = () => {
           </div>
         )}
 
-        {/* PayPal Details */}
+
         {selectedMethods.paypal && (
           <div className="space-y-4 p-4 border rounded-lg bg-muted/30">
             <h4 className="text-sm font-medium">PayPal Details</h4>
@@ -274,7 +274,7 @@ const PaymentDetails = () => {
           </div>
         )}
 
-        {/* Venmo Details */}
+
         {selectedMethods.venmo && (
           <div className="space-y-4 p-4 border rounded-lg bg-muted/30">
             <h4 className="text-sm font-medium">Venmo Details</h4>
@@ -296,7 +296,7 @@ const PaymentDetails = () => {
           </div>
         )}
 
-        {/* Cash App Details */}
+
         {selectedMethods.cashApp && (
           <div className="space-y-4 p-4 border rounded-lg bg-muted/30">
             <h4 className="text-sm font-medium">Cash App Details</h4>
@@ -318,7 +318,7 @@ const PaymentDetails = () => {
           </div>
         )}
 
-        {/* Zelle Details */}
+
         {selectedMethods.zelle && (
           <div className="space-y-4 p-4 border rounded-lg bg-muted/30">
             <h4 className="text-sm font-medium">Zelle Details</h4>
@@ -340,7 +340,7 @@ const PaymentDetails = () => {
           </div>
         )}
 
-        {/* Check Payment Details */}
+
         {selectedMethods.check && (
           <div className="space-y-4 p-4 border rounded-lg bg-muted/30">
             <h4 className="text-sm font-medium">Check Payment Details</h4>
@@ -362,7 +362,7 @@ const PaymentDetails = () => {
           </div>
         )}
 
-        {/* Crypto Details */}
+
         {selectedMethods.crypto && (
           <div className="space-y-4 p-4 border rounded-lg bg-muted/30">
             <h4 className="text-sm font-medium">Crypto Payment Details</h4>
@@ -384,11 +384,11 @@ const PaymentDetails = () => {
           </div>
         )}
 
-        {/* QR Code & Digital Signature */}
+
         <div className="space-y-4">
           <h4 className="text-sm font-medium text-muted-foreground">QR Code & Digital Signature</h4>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* QR Code Section */}
+
             <div className="space-y-4">
               <div className="group relative">
                 <label
@@ -419,7 +419,7 @@ const PaymentDetails = () => {
               )}
             </div>
 
-            {/* Digital Signature Section */}
+
             <div className="space-y-4">
               <div className="border-2 border-gray-300 rounded-lg p-4">
                 <SignatureCanvas

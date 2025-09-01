@@ -49,7 +49,6 @@ export const InvoiceProvider: React.FC<InvoiceProviderProps> = ({ children }) =>
         item.id === id ? { ...item, ...updates } : item
       );
       
-      // Recalculate amounts for the updated item
       const updatedItem = updatedItems.find(item => item.id === id);
       if (updatedItem && (updates.quantity !== undefined || updates.rate !== undefined)) {
         updatedItem.amount = updatedItem.quantity * updatedItem.rate;
@@ -74,8 +73,8 @@ export const InvoiceProvider: React.FC<InvoiceProviderProps> = ({ children }) =>
   const calculateTotals = () => {
     setInvoice(prev => {
       const subtotal = prev.items.reduce((sum, item) => sum + item.amount, 0);
-      const discount = subtotal * 0.1; // 10% discount
-      const tax = (subtotal - discount) * 0.105; // 10.5% tax (8.5% + 2%)
+      const discount = subtotal * 0.1;
+      const tax = (subtotal - discount) * 0.105;
       const total = subtotal - discount + tax;
 
       return {

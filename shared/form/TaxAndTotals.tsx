@@ -54,9 +54,9 @@ const TaxAndTotals = () => {
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">
-        {/* Discount Section */}
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {/* Discount Percentage */}
+
           <div className="group relative">
             <label
               htmlFor={discountPercentageId}
@@ -75,7 +75,7 @@ const TaxAndTotals = () => {
             />
           </div>
 
-          {/* Discount Amount */}
+
           <div className="group relative">
             <label
               htmlFor={discountAmountId}
@@ -95,7 +95,7 @@ const TaxAndTotals = () => {
           </div>
         </div>
 
-        {/* Tax Rates Section */}
+
         <div className="space-y-4">
           <div className="flex items-center justify-between">
             <h4 className="text-sm font-medium text-muted-foreground">Tax Rates</h4>
@@ -107,7 +107,7 @@ const TaxAndTotals = () => {
           
           {taxRates.map((tax, index) => (
             <div key={tax.id} className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              {/* Tax Name */}
+
               <div className="group relative">
                 <label
                   htmlFor={`tax-name-${tax.id}`}
@@ -124,7 +124,7 @@ const TaxAndTotals = () => {
                 />
               </div>
 
-              {/* Tax Rate */}
+
               <div className="group relative">
                 <label
                   htmlFor={`tax-rate-${tax.id}`}
@@ -143,7 +143,7 @@ const TaxAndTotals = () => {
                 />
               </div>
 
-              {/* Delete Button */}
+
               <div className="flex items-center">
                 {taxRates.length > 1 && (
                   <Button
@@ -161,27 +161,27 @@ const TaxAndTotals = () => {
           ))}
         </div>
 
-        {/* Calculated Values */}
+
         <div className="space-y-2">
-          {/* Subtotal - Calculated Value */}
+
           <div className="flex items-center justify-between border-t pt-4">
             <span className="text-lg font-semibold">Subtotal</span>
             <span className="text-lg font-semibold">{formatCurrency(invoice.subtotal)}</span>
           </div>
 
-          {/* Discount - Calculated Value */}
+
           <div className="flex items-center justify-between">
             <span className="text-sm text-muted-foreground">Discount (10%)</span>
             <span className="text-sm text-muted-foreground">-{formatCurrency(invoice.discount)}</span>
           </div>
 
-          {/* Tax - Calculated Value */}
+
           <div className="flex items-center justify-between">
             <span className="text-sm text-muted-foreground">Tax</span>
             <span className="text-sm text-muted-foreground">{formatCurrency(invoice.tax)}</span>
           </div>
 
-          {/* Total - Calculated Value */}
+
           <div className="flex items-center justify-between border-t pt-4">
             <span className="text-lg font-semibold">Total</span>
             <span className="text-lg font-semibold">{formatCurrency(invoice.total)}</span>

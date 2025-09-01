@@ -62,7 +62,7 @@ const ItemList = () => {
               )}
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-              {/* Description */}
+
               <div className="lg:col-span-2 group relative">
                 <label
                   htmlFor={`description-${item.id}`}
@@ -79,7 +79,7 @@ const ItemList = () => {
                 />
               </div>
 
-              {/* Quantity */}
+
               <div className="group relative">
                 <label
                   htmlFor={`quantity-${item.id}`}
@@ -97,7 +97,7 @@ const ItemList = () => {
                 />
               </div>
 
-              {/* Rate */}
+
               <div className="group relative">
                 <label
                   htmlFor={`rate-${item.id}`}
@@ -116,7 +116,7 @@ const ItemList = () => {
                 />
               </div>
 
-              {/* Amount */}
+
               <div className="group relative">
                 <label
                   htmlFor={`amount-${item.id}`}

@@ -28,7 +28,7 @@ const ContactDetails = () => {
       </CardHeader>
       <CardContent className="space-y-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {/* From Section */}
+
           <div className="grid grid-cols-1 gap-4">
             <h4 className="text-md font-medium text-muted-foreground">From</h4>
             <div className="grid grid-cols-1 gap-4">
@@ -66,7 +66,7 @@ const ContactDetails = () => {
             </div>
           </div>
 
-          {/* To Section */}
+
           <div className="grid grid-cols-1 gap-4">
             <h4 className="text-md font-medium text-muted-foreground">To</h4>
             <div className="grid grid-cols-1 gap-4">

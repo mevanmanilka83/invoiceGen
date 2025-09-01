@@ -43,7 +43,6 @@ export default function Home() {
         </div>
         <InvoiceForm />
         
-        {/* Footer with Terms and Privacy Links */}
         <footer className="mt-12 pt-8 border-t border-gray-200">
           <div className="flex flex-col sm:flex-row justify-between items-center text-sm text-gray-500">
             <div className="mb-4 sm:mb-0">

@@ -25,7 +25,7 @@ const CompanyDetails = () => {
 
   const { invoice, updateInvoice } = useInvoice()
 
-  // State for social media fields
+
   const [socialMedia, setSocialMedia] = useState({
     linkedin: '',
     twitter: '',
@@ -33,7 +33,7 @@ const CompanyDetails = () => {
     instagram: ''
   })
 
-  // State for currency
+
   const [selectedCurrency, setSelectedCurrency] = useState('')
   const [customCurrency, setCustomCurrency] = useState('')
   const [exchangeRate, setExchangeRate] = useState('')
@@ -80,9 +80,9 @@ const CompanyDetails = () => {
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">
-        {/* Company Basic Info */}
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {/* Company Name */}
+
           <div className="group relative">
             <label
               htmlFor={companyNameId}
@@ -99,7 +99,7 @@ const CompanyDetails = () => {
             />
           </div>
 
-          {/* Company Logo */}
+
           <div className="group relative">
             <label
               htmlFor={companyLogoId}
@@ -126,9 +126,9 @@ const CompanyDetails = () => {
           </div>
         </div>
 
-        {/* Contact Information */}
+
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {/* Company Address */}
+
           <div className="md:col-span-2 group relative">
             <label
               htmlFor={companyAddressId}
@@ -145,7 +145,7 @@ const CompanyDetails = () => {
             />
           </div>
 
-          {/* Company Phone */}
+
           <div className="group relative">
             <label
               htmlFor={companyPhoneId}
@@ -164,9 +164,9 @@ const CompanyDetails = () => {
           </div>
         </div>
 
-        {/* Email and Website */}
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {/* Company Email */}
+
           <div className="group relative">
             <label
               htmlFor={companyEmailId}
@@ -184,7 +184,7 @@ const CompanyDetails = () => {
             />
           </div>
 
-          {/* Website */}
+
           <div className="group relative">
             <label
               htmlFor={websiteId}
@@ -203,9 +203,9 @@ const CompanyDetails = () => {
           </div>
         </div>
 
-        {/* Social Media - Row 1 */}
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {/* LinkedIn */}
+
           <div className="flex items-center gap-2">
             <div className="group relative flex-1">
               <label
@@ -234,7 +234,7 @@ const CompanyDetails = () => {
             </Button>
           </div>
 
-          {/* Twitter/X */}
+
           <div className="flex items-center gap-2">
             <div className="group relative flex-1">
               <label
@@ -264,9 +264,9 @@ const CompanyDetails = () => {
           </div>
         </div>
 
-        {/* Social Media - Row 2 */}
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {/* Facebook */}
+
           <div className="flex items-center gap-2">
             <div className="group relative flex-1">
               <label
@@ -295,7 +295,7 @@ const CompanyDetails = () => {
             </Button>
           </div>
 
-          {/* Instagram */}
+
           <div className="flex items-center gap-2">
             <div className="group relative flex-1">
               <label
@@ -325,9 +325,9 @@ const CompanyDetails = () => {
           </div>
         </div>
 
-        {/* Business Information */}
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {/* Tax/VAT Number */}
+
           <div className="group relative">
             <label
               htmlFor={taxNumberId}
@@ -344,7 +344,7 @@ const CompanyDetails = () => {
             />
           </div>
 
-          {/* Brand Color */}
+
           <div className="group relative">
             <label
               htmlFor={brandColorId}
@@ -362,9 +362,9 @@ const CompanyDetails = () => {
           </div>
         </div>
 
-        {/* Currency Settings */}
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {/* Currency Selection */}
+
           <div className="space-y-2">
             <Label htmlFor={currencyId} className="text-xs font-medium">Currency</Label>
             <select 
@@ -386,7 +386,7 @@ const CompanyDetails = () => {
             </select>
           </div>
 
-          {/* Currency in Words */}
+
           <div className="group relative">
             <label
               htmlFor={currencyWordsId}
@@ -413,10 +413,10 @@ const CompanyDetails = () => {
           </div>
         </div>
 
-        {/* Currency Conversion Settings */}
+
         {selectedCurrency && selectedCurrency !== 'custom' && (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* Base Currency */}
+
             <div className="space-y-2">
               <Label className="text-xs font-medium">Base Currency</Label>
               <select 
@@ -435,7 +435,7 @@ const CompanyDetails = () => {
               </select>
             </div>
 
-            {/* Exchange Rate */}
+
             <div className="group relative">
               <label
                 htmlFor="exchangeRate"

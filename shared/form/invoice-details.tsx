@@ -26,7 +26,7 @@ const InvoiceDetails = () => {
       </CardHeader>
       <CardContent className="space-y-6">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {/* Purchase Order Number */}
+
           <div className="group relative">
             <label
               htmlFor={poNumberId}
@@ -43,7 +43,7 @@ const InvoiceDetails = () => {
             />
           </div>
 
-          {/* Project Name */}
+
           <div className="group relative">
             <label
               htmlFor={projectNameId}
@@ -60,7 +60,7 @@ const InvoiceDetails = () => {
             />
           </div>
 
-          {/* Customer ID */}
+
           <div className="group relative">
             <label
               htmlFor={customerIdId}
