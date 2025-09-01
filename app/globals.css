@@ -120,3 +120,444 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Print styles to remove browser headers and footers */
+@media print {
+  @page {
+    /* Use absolute maximum page space - no margins */
+    margin: 0 !important;
+    size: A4;
+    /* Force no headers/footers */
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  
+  body {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+    overflow-x: hidden !important;
+  }
+  
+  /* Hide browser headers and footers */
+  @page :first {
+    margin-top: 0;
+  }
+  
+  @page :left {
+    margin-left: 0;
+  }
+  
+  @page :right {
+    margin-right: 0;
+  }
+  
+  /* Hide any browser-generated content */
+  body::before,
+  body::after {
+    content: none !important;
+  }
+  
+  /* Ensure no browser metadata is displayed */
+  html {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  
+  /* Force full page width usage - override all width restrictions */
+  .max-w-4xl,
+  .w-full,
+  .mx-auto {
+    max-width: none !important;
+    width: 100% !important;
+    margin: 0 auto !important;
+  }
+  
+  /* Force invoice to use full page with minimal margins */
+  [data-invoice-content],
+  [data-invoice-content] > div,
+  [data-invoice-content] .container,
+  [data-invoice-content] .max-w-4xl {
+    width: 100% !important;
+    max-width: none !important;
+    margin: 0 auto !important;
+    padding: 0.25in !important;
+    left: 0 !important;
+    right: 0 !important;
+  }
+  
+  /* Override any remaining spacing */
+  .p-8, .mx-auto {
+    padding: 0.25in !important;
+    margin: 0 auto !important;
+  }
+  
+  /* Force full page coverage for invoice */
+  [data-invoice-content] {
+    width: 100% !important;
+    max-width: none !important;
+    margin: 0 auto !important;
+    padding: 0.25in !important;
+    border: none !important;
+    box-shadow: none !important;
+  }
+  
+  [data-invoice-content] > div {
+    padding: 0.25in !important;
+    margin: 0 auto !important;
+    width: 100% !important;
+  }
+  
+  /* Container adjustments */
+  .container {
+    max-width: none !important;
+    width: 100% !important;
+    margin: 0 auto !important;
+    padding: 0.25in !important;
+  }
+  
+  /* Ensure invoice content is properly centered with margins */
+  [data-invoice-content] .container,
+  [data-invoice-content] .max-w-4xl {
+    width: 100% !important;
+    max-width: none !important;
+    margin: 0 auto !important;
+    padding: 0.25in !important;
+  }
+  
+  /* Force specific left and right margins */
+  [data-invoice-content] > div {
+    padding: 0.25in !important;
+    margin: 0 auto !important;
+    width: 100% !important;
+  }
+  
+  /* Hide elements when printing */
+  .print-hidden {
+    display: none !important;
+  }
+  
+  /* Optimize spacing for print - use full space */
+  .mb-12, .mb-10, .mb-8, .mb-6 {
+    margin-bottom: 0.125rem !important;
+  }
+  
+  .mt-10, .mt-8 {
+    margin-top: 0.125rem !important;
+  }
+  
+  .pt-8 {
+    padding-top: 0.125rem !important;
+  }
+  
+  .p-12 {
+    padding: 0.25in !important;
+  }
+  
+  .p-8 {
+    padding: 0.125rem !important;
+  }
+  
+  .p-4 {
+    padding: 0.0625rem !important;
+  }
+  
+  /* Reduce spacing between invoice sections */
+  .mb-12 {
+    margin-bottom: 0.75rem !important;
+  }
+  
+  .mb-10 {
+    margin-bottom: 0.75rem !important;
+  }
+  
+  .mb-8 {
+    margin-bottom: 0.75rem !important;
+  }
+  
+  .mb-6 {
+    margin-bottom: 0.5rem !important;
+  }
+  
+  .mt-10 {
+    margin-top: 0.75rem !important;
+  }
+  
+  .mt-8 {
+    margin-top: 0.75rem !important;
+  }
+  
+  /* Reduce padding between sections */
+  .p-12 {
+    padding: 0.25in !important;
+  }
+  
+  .p-8 {
+    padding: 0.25rem !important;
+  }
+  
+  .p-4 {
+    padding: 0.125rem !important;
+  }
+  
+  /* Reduce font sizes for print */
+  h1 {
+    font-size: 1.5rem !important;
+    margin-bottom: 0.5rem !important;
+  }
+  
+  h2 {
+    font-size: 1.25rem !important;
+    margin-bottom: 0.5rem !important;
+  }
+  
+  h3 {
+    font-size: 1rem !important;
+    margin-bottom: 0.25rem !important;
+  }
+  
+  /* Optimize table for print */
+  table {
+    font-size: 11px !important;
+  }
+  
+  th, td {
+    padding: 0.25rem 0.5rem !important;
+  }
+  
+  /* Ensure images don't overflow */
+  img {
+    max-width: 100% !important;
+    height: auto !important;
+  }
+  
+  /* Optimize grid layouts for print */
+  .grid {
+    gap: 0.5rem !important;
+  }
+  
+  /* Ensure proper page breaks */
+  .page-break {
+    page-break-before: always;
+  }
+  
+  /* Prevent orphaned elements */
+  h1, h2, h3, h4, h5, h6 {
+    page-break-after: avoid;
+  }
+  
+  tr {
+    page-break-inside: avoid;
+  }
+  
+  /* Force bottom sections to end of page */
+  [data-invoice-content] .mt-8:last-of-type,
+  [data-invoice-content] .mt-10.pt-8.border-t.border-gray-100 {
+    margin-top: auto !important;
+    padding-top: 2rem !important;
+    position: relative !important;
+  }
+  
+  /* Force payment and legal sections to bottom - using simple selectors */
+  [data-invoice-content] .flex.flex-col {
+    margin-top: auto !important;
+    padding-top: 2rem !important;
+    position: relative !important;
+  }
+  
+  /* Force footer sections to bottom of page */
+  [data-invoice-content] > div:last-child {
+    margin-top: auto !important;
+    padding-top: 2rem !important;
+  }
+  
+  /* Ensure proper page layout for bottom sections */
+  [data-invoice-content] {
+    display: flex !important;
+    flex-direction: column !important;
+    min-height: 100vh !important;
+  }
+  
+  [data-invoice-content] > div:last-child {
+    margin-top: auto !important;
+  }
+  
+  /* Force bottom sections using simple selectors */
+  [data-invoice-content] .flex.flex-col {
+    margin-top: auto !important;
+    padding-top: 2rem !important;
+  }
+  
+  /* Target sections by their position in the document */
+  [data-invoice-content] > div:nth-last-child(4),
+  [data-invoice-content] > div:nth-last-child(3),
+  [data-invoice-content] > div:nth-last-child(2),
+  [data-invoice-content] > div:nth-last-child(1) {
+    margin-top: auto !important;
+    padding-top: 1rem !important;
+  }
+  
+  /* Additional print optimizations */
+  .print\:p-0 {
+    padding: 0 !important;
+  }
+  
+  .print\:mb-4 {
+    margin-bottom: 0.5rem !important;
+  }
+  
+  .print\:gap-6 {
+    gap: 0.75rem !important;
+  }
+  
+  .print\:gap-4 {
+    gap: 0.5rem !important;
+  }
+  
+  .print\:w-16 {
+    width: 4rem !important;
+  }
+  
+  .print\:h-16 {
+    height: 4rem !important;
+  }
+  
+  .print\:shadow-none {
+    box-shadow: none !important;
+  }
+  
+  .print\:text-lg {
+    font-size: 1.125rem !important;
+  }
+  
+  .print\:text-base {
+    font-size: 1rem !important;
+  }
+  
+  .print\:text-sm {
+    font-size: 0.875rem !important;
+  }
+  
+  .print\:text-xs {
+    font-size: 0.75rem !important;
+  }
+  
+  .print\:text-\[10px\] {
+    font-size: 10px !important;
+  }
+  
+  .print\:mb-2 {
+    margin-bottom: 0.25rem !important;
+  }
+  
+  .print\:mb-3 {
+    margin-bottom: 0.375rem !important;
+  }
+  
+  .print\:space-y-1 {
+    --tw-space-y-reverse: 0;
+    margin-top: calc(0.25rem * calc(1 - var(--tw-space-y-reverse)));
+    margin-bottom: calc(0.25rem * var(--tw-space-y-reverse));
+  }
+  
+  .print\:px-3 {
+    padding-left: 0.75rem !important;
+    padding-right: 0.75rem !important;
+  }
+  
+  .print\:py-2 {
+    padding-top: 0.5rem !important;
+    padding-bottom: 0.5rem !important;
+  }
+  
+  .print\:px-2 {
+    padding-left: 0.5rem !important;
+    padding-right: 0.5rem !important;
+  }
+  
+  .print\:py-1 {
+    padding-top: 0.25rem !important;
+    padding-bottom: 0.25rem !important;
+  }
+  
+  .print\:border-l-2 {
+    border-left-width: 2px !important;
+  }
+  
+  .print\:min-w-\[60px\] {
+    min-width: 3.75rem !important;
+  }
+  
+  .print\:text-sm {
+    font-size: 0.875rem !important;
+  }
+  
+  .print\:border-gray-300 {
+    border-color: rgb(209 213 219) !important;
+  }
+  
+  .print\:py-2 {
+    padding-top: 0.5rem !important;
+    padding-bottom: 0.5rem !important;
+  }
+  
+  .print\:px-3 {
+    padding-left: 0.75rem !important;
+    padding-right: 0.75rem !important;
+  }
+  
+  .print\:py-1 {
+    padding-top: 0.25rem !important;
+    padding-bottom: 0.25rem !important;
+  }
+  
+  .print\:px-2 {
+    padding-left: 0.5rem !important;
+    padding-right: 0.5rem !important;
+  }
+  
+  .print\:space-y-0 > * + * {
+    margin-top: 0 !important;
+  }
+  
+  .print\:mt-0 {
+    margin-top: 0 !important;
+  }
+  
+  .print\:w-full {
+    width: 100% !important;
+  }
+  
+  .print\:pt-1 {
+    padding-top: 0.25rem !important;
+  }
+  
+  .print\:w-24 {
+    width: 6rem !important;
+  }
+  
+  .print\:h-24 {
+    height: 6rem !important;
+  }
+  
+  .print\:mb-1 {
+    margin-bottom: 0.25rem !important;
+  }
+  
+  .print\:max-h-16 {
+    max-height: 4rem !important;
+  }
+  
+  .print\:gap-2 {
+    gap: 0.5rem !important;
+  }
+  
+  .print\:mt-2 {
+    margin-top: 0.5rem !important;
+  }
+}
